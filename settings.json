@@ -1,0 +1,8 @@
+{
+    "Acrichin":
+    {
+        "start_row_table": 2,
+        "stop_row_table": 2,
+        "output_format": "xml"
+    }
+}

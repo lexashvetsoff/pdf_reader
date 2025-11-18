@@ -33,12 +33,12 @@ def clean_headers_row(row: List):
         str_res = str_res.replace('-\n', '')
         str_res = str_res.replace('\n', ' ')
         result.append(str_res)
-    print(result)
+    return result
 
 
 def main():
     tables_data = []
-    with pdfplumber.open('pdf_files\ПротоколБиннофарм.pdf') as pdf:
+    with pdfplumber.open('pdf_files\АкрихинРеестр.PDF') as pdf:
         for page in pdf.pages:
             # Настройки для лучшего распознавания
             table_settings = {
@@ -54,7 +54,24 @@ def main():
                     if any(cell and cell.strip() for cell in row):
                         tables_data.append([cell.strip() if cell else "" for cell in row])
 
-    clean_headers_row(tables_data[0])
+    result_row = clean_headers_row(tables_data[1])
+    for i, row in enumerate(result_row):
+        print(f'{i}: {row}')
+
+    
+    # 0: №
+    # 1: Код товара
+    # 2: Наименование товара
+    # 3:
+    # 4: Серия
+    # 5: Количество
+    # 6: Срок годности
+    # 7: Наименование и местонахождение производителя
+    # 8: Декларант* /компания, выпускающая ЛП в гражданский оборот**
+    # 9: № декларации* /№ Разрешения на реализацию**
+    # 10: Орган сертификации* /номер записи в реестре АИС РЗН **
+    # 11: Дата выдачи декларации*/ Дата занесения записи в АИС РЗН**
+    
     # print(len(tables_data[0]))
     # print(len(tables_data[1]))
     # print(tables_data[0])

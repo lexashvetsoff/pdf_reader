@@ -1,8 +1,64 @@
 import os
 import json
+import enum
 import pdfplumber
 import pandas as pd
 import xml.etree.ElementTree as et
+
+
+class Reestr_Mapping_Column_Tag(enum.Enum):
+    pass
+
+
+class Protocol_Mapping_Column_Tag(enum.Enum):
+    pass
+
+
+class ReestrTableSettings:
+    def __init__(self, data):
+        self.row_table_headers: int = data['row_table_headers']
+        self.start_row_table: int = data['start_row_table']
+        self.stop_row_table: int = data['stop_row_table']
+        self.headings_on_every_page: bool = data['headings_on_every_page']
+        self.count_row_heders_other_pages: int = data['count_row_heders_other_pages']
+
+
+class ReestrColumns:
+    def __init__(self, data):
+        self.column_por_num: int = data['column_por_num']
+        self.column_code_tov: int = data['column_code_tov']
+        self.column_name_tov: int = data['column_name_tov']
+        self.column_series: int = data['column_series']
+        self.column_count: int = data['column_count']
+        self.column_expiry_date: int = data['column_expiry_date']
+        self.column_proizv: int = data['column_proizv']
+        self.column_declarant: int = data['column_declarant']
+        self.column_certificate_number: int = data['column_certificate_number']
+        self.column_AIS_number: int = data['column_AIS_number']
+        self.column_AIS_loading_date: int = data['column_AIS_loading_date']
+
+
+class ReestrOutputSettings:
+    def __init__(self, data):
+        self.output_format: str = data['output_format']
+
+
+class Reestr:
+    def __init__(self, data):
+        self.table_settings = ReestrTableSettings(data['table_settings'])
+        self.columns = ReestrColumns(data['columns'])
+        self.output_settings = ReestrOutputSettings(data['output_settings'])
+
+
+class Settings:
+    def __init__(self, data, type_data):
+        # type_data: 'Reestr' or 'Protocol'
+        if type_data == 'Reestr':
+            self.params = Reestr(data['Reestr'])
+        elif type_data == 'Protocol':
+            pass
+        else:
+            raise ValueError
 
 
 def list_dict_to_xml(data, root_tag='root', element_tag='item'):
@@ -34,10 +90,12 @@ def list_dict_to_xml(data, root_tag='root', element_tag='item'):
 
 def main():
     with open('settings.json', 'r', encoding='utf-8') as file:
-        settings = json.load(file)
+        file_settings = json.load(file)
     
-    acrichin = settings['Acrichin']['Reestr']
-    print(acrichin)
+    settings = Settings(file_settings['Acrichin'], 'Reestr')
+
+    # acrichin = settings['Acrichin']['Reestr']
+    # print(acrichin)
 
     tables_data = []
     with pdfplumber.open('pdf_files\АкрихинРеестр.PDF') as pdf:
@@ -55,59 +113,35 @@ def main():
                     # Фильтрация пустых строк
                     if any(cell and cell.strip() for cell in row):
                         tables_data.append([cell.strip() if cell else "" for cell in row])
-    
-    # print(len(tables_data[0]))
-    # print(len(tables_data[1]))
-    # print(tables_data[0])
-    # print(tables_data[2])
-
-    # print(tables_data[0].index('№'))
-    idx_row_number = tables_data[acrichin['row_table_headers']].index('№')
-
-    # print(tables_data[0].index('Код товара'))
-    idx_code_tov = tables_data[acrichin['row_table_headers']].index('Код товара')
-
-    # print(tables_data[0].index('Наименование товара'))
-    idx_name_tov = tables_data[acrichin['row_table_headers']].index('Наименование товара')
-
-    # print(tables_data[0].index('Серия'))
-    idx_series = tables_data[acrichin['row_table_headers']].index('Серия')
-
-    # print(tables_data[0].index('Количество'))
-    idx_count = tables_data[acrichin['row_table_headers']].index('Количество')
-
-    # print(tables_data[0].index('Срок\nгодности'))
-    idx_expiration_date = tables_data[acrichin['row_table_headers']].index('Срок\nгодности')
 
     results = []
-    # print(tables_data[acrichin['start_row_table']:])
-    for row_table in tables_data[acrichin['start_row_table']:-acrichin['stop_row_table']]:
-        if row_table[idx_row_number]:
-            name_tov = str(row_table[idx_name_tov])
+    for row_table in tables_data[settings.params.table_settings.start_row_table:-settings.params.table_settings.stop_row_table]:
+        if row_table[settings.params.columns.column_por_num]:
+            name_tov = str(row_table[settings.params.columns.column_name_tov])
             name_tov = name_tov.replace('\n', ' ')
 
-            series = str(row_table[idx_series])
+            series = str(row_table[settings.params.columns.column_series])
             if series[0] == "'":
                 series = series.replace("'", '', 1)
             
-            expiration_date = str(row_table[idx_expiration_date])
+            expiration_date = str(row_table[settings.params.columns.column_expiry_date])
             if expiration_date[0] == "'":
                 expiration_date = expiration_date.replace("'", '', 1)
             
             data = {
-                'row_number': row_table[idx_row_number],
-                'code': row_table[idx_code_tov],
+                'row_number': row_table[settings.params.columns.column_por_num],
+                'code': row_table[settings.params.columns.column_code_tov],
                 'name': name_tov,
                 'series': series,
-                'count': row_table[idx_count],
+                'count': row_table[settings.params.columns.column_count],
                 'expiration_date': expiration_date
             }
             results.append(data)
-    
-    if acrichin['output_format'] == 'json':
+
+    if settings.params.output_settings.output_format == 'json':
         with open('output.json', 'w', encoding='utf-8') as file:
             json.dump(results, file, ensure_ascii=False, indent=4)
-    elif acrichin['output_format'] == 'xml':
+    elif settings.params.output_settings.output_format == 'xml':
         list_dict_to_xml(results)
 
 

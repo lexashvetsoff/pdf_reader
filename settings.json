@@ -3,10 +3,32 @@
     {
         "Reestr":
         {
-            "row_table_headers": 0,
-            "start_row_table": 2,
-            "stop_row_table": 2,
-            "output_format": "xml"
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 2,
+                "stop_row_table": 2,
+                "headings_on_every_page": false,
+                "count_row_heders_other_pages": 0
+            },
+            "columns":
+            {
+                "column_por_num": 0,
+                "column_code_tov": 1,
+                "column_name_tov": 2,
+                "column_series": 4,
+                "column_count": 5,
+                "column_expiry_date": 6,
+                "column_proizv": 7,
+                "column_declarant": 8,
+                "column_certificate_number": 9,
+                "column_AIS_number": 10,
+                "column_AIS_loading_date": 11
+            },
+            "output_settings":
+            {
+                "output_format": "xml"
+            }
         },
         "Protocol":
         {}
@@ -15,11 +37,64 @@
     {
         "Reestr":
         {
-
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 2,
+                "stop_row_table": 2,
+                "headings_on_every_page": true,
+                "count_row_heders_other_pages": 1
+            },
+            "columns":
+            {
+                "column_por_num": 0,
+                "column_name_tov": 1,
+                "column_mnn": 2,
+                "column_series": 3,
+                "column_production_date": 4,
+                "column_expiry_date": 5,
+                "column_proizv": 6,
+                "column_certificate_number": 7,
+                "column_certificate_date": 8,
+                "column_AIS_number": 9,
+                "column_AIS_loading_date": 10,
+                "column_count_packages": 11,
+                "column_RU_number_RU_date": 12
+            },
+            "output_settings":
+            {
+                "output_format": "xml"
+            }
         },
         "Protocol":
         {
-
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 2,
+                "stop_row_table": 2,
+                "headings_on_every_page": false,
+                "count_row_heders_other_pages": 0
+            },
+            "columns":
+            {
+                "column_mnn": 0,
+                "column_trade_name": 1,
+                "column_series": 2,
+                "column_proizvod": 3,
+                "column_max_proizv_price": 4,
+                "column_fakt_price_proizv": 5,
+                "column_sale_date_RF": 7,
+                "column_wholesale_price": 8,
+                "column_wholesale_markup": 11,
+                "column_total_wholesale_price": 13,
+                "column_total_wholesale_markup": 16,
+                "column_max_retail_price": 18
+            },
+             "output_settings":
+            {
+                "output_format": "xml"
+            }
         }
     }
 }

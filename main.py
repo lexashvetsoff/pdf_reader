@@ -36,7 +36,7 @@ def main():
     with open('settings.json', 'r', encoding='utf-8') as file:
         settings = json.load(file)
     
-    acrichin = settings['Acrichin']
+    acrichin = settings['Acrichin']['Reestr']
     print(acrichin)
 
     tables_data = []
@@ -62,22 +62,22 @@ def main():
     # print(tables_data[2])
 
     # print(tables_data[0].index('№'))
-    idx_row_number = tables_data[0].index('№')
+    idx_row_number = tables_data[acrichin['row_table_headers']].index('№')
 
     # print(tables_data[0].index('Код товара'))
-    idx_code_tov = tables_data[0].index('Код товара')
+    idx_code_tov = tables_data[acrichin['row_table_headers']].index('Код товара')
 
     # print(tables_data[0].index('Наименование товара'))
-    idx_name_tov = tables_data[0].index('Наименование товара')
+    idx_name_tov = tables_data[acrichin['row_table_headers']].index('Наименование товара')
 
     # print(tables_data[0].index('Серия'))
-    idx_series = tables_data[0].index('Серия')
+    idx_series = tables_data[acrichin['row_table_headers']].index('Серия')
 
     # print(tables_data[0].index('Количество'))
-    idx_count = tables_data[0].index('Количество')
+    idx_count = tables_data[acrichin['row_table_headers']].index('Количество')
 
     # print(tables_data[0].index('Срок\nгодности'))
-    idx_expiration_date = tables_data[0].index('Срок\nгодности')
+    idx_expiration_date = tables_data[acrichin['row_table_headers']].index('Срок\nгодности')
 
     results = []
     # print(tables_data[acrichin['start_row_table']:])

@@ -1,8 +1,25 @@
 {
     "Acrichin":
     {
-        "start_row_table": 2,
-        "stop_row_table": 2,
-        "output_format": "xml"
+        "Reestr":
+        {
+            "row_table_headers": 0,
+            "start_row_table": 2,
+            "stop_row_table": 2,
+            "output_format": "xml"
+        },
+        "Protocol":
+        {}
+    },
+    "Binnofarm":
+    {
+        "Reestr":
+        {
+
+        },
+        "Protocol":
+        {
+
+        }
     }
 }

@@ -209,3 +209,4 @@ __marimo__/
 *.pdf
 output.json
 output.xml
+pdf_files/*.xlsx

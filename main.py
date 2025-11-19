@@ -14,13 +14,18 @@ class Protocol_Mapping_Column_Tag(enum.Enum):
     pass
 
 
-class ReestrTableSettings:
+class TableSettings:
     def __init__(self, data):
         self.row_table_headers: int = data['row_table_headers']
         self.start_row_table: int = data['start_row_table']
         self.stop_row_table: int = data['stop_row_table']
         self.headings_on_every_page: bool = data['headings_on_every_page']
         self.count_row_heders_other_pages: int = data['count_row_heders_other_pages']
+
+
+class OutputSettings:
+    def __init__(self, data):
+        self.output_format: str = data['output_format']
 
 
 class ReestrColumns:
@@ -38,16 +43,34 @@ class ReestrColumns:
         self.column_AIS_loading_date: int = data['column_AIS_loading_date']
 
 
-class ReestrOutputSettings:
-    def __init__(self, data):
-        self.output_format: str = data['output_format']
-
-
 class Reestr:
     def __init__(self, data):
-        self.table_settings = ReestrTableSettings(data['table_settings'])
+        self.table_settings = TableSettings(data['table_settings'])
         self.columns = ReestrColumns(data['columns'])
-        self.output_settings = ReestrOutputSettings(data['output_settings'])
+        self.output_settings = OutputSettings(data['output_settings'])
+
+
+class ProtocolColumns:
+    def __init__(self, data):
+        self.column_mnn: int = data['column_mnn']
+        self.column_trade_name: int = data['column_trade_name']
+        self.column_series: int = data['column_series']
+        self.column_proizvod: int = data['column_proizvod']
+        self.column_max_proizv_price: int = data['column_max_proizv_price']
+        self.column_fakt_price_proizv: int = data['column_fakt_price_proizv']
+        self.column_sale_date_RF: int = data['column_sale_date_RF']
+        self.column_wholesale_price: int = data['column_wholesale_price']
+        self.column_wholesale_markup: int = data['column_wholesale_markup']
+        self.column_total_wholesale_price: int = data['column_total_wholesale_price']
+        self.column_total_wholesale_markup: int = data['column_total_wholesale_markup']
+        self.column_max_retail_price: int = data['column_max_retail_price']
+
+
+class Protocol:
+    def __init__(self, data):
+        self.table_settings = TableSettings(data['table_settings'])
+        self.columns = ProtocolColumns(data['columns'])
+        self.output_settings = OutputSettings(data['output_settings'])
 
 
 class Settings:
@@ -56,7 +79,7 @@ class Settings:
         if type_data == 'Reestr':
             self.params = Reestr(data['Reestr'])
         elif type_data == 'Protocol':
-            pass
+            self.params = Protocol(data['Protocol'])
         else:
             raise ValueError
 

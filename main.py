@@ -73,13 +73,31 @@ class Protocol:
         self.output_settings = OutputSettings(data['output_settings'])
 
 
+class ReestrOutputColumns:
+    def __init__(self, data):
+        self.column_por_num = data["column_por_num"]
+        self.column_name_tov = data["column_name_tov"]
+        self.column_code_tov = data["column_code_tov"]
+        self.column_series = data["column_series"]
+        self.column_expiry_date = data["column_expiry_date"]
+        self.column_count = data["column_count"]
+        self.column_proizv = data["column_proizv"]
+
+
+class ProtocolOutputColumns:
+    def __init__(self, data):
+        pass
+
+
 class Settings:
-    def __init__(self, data, type_data):
+    def __init__(self, data_name_columns, data_params, type_data):
         # type_data: 'Reestr' or 'Protocol'
         if type_data == 'Reestr':
-            self.params = Reestr(data['Reestr'])
+            self.out_colums = ReestrOutputColumns(data_name_columns['Reestr'])
+            self.params = Reestr(data_params['Reestr'])
         elif type_data == 'Protocol':
-            self.params = Protocol(data['Protocol'])
+            self.out_colums = ProtocolOutputColumns(data_name_columns['Protocol'])
+            self.params = Protocol(data_params['Protocol'])
         else:
             raise ValueError
 
@@ -115,10 +133,8 @@ def main():
     with open('settings.json', 'r', encoding='utf-8') as file:
         file_settings = json.load(file)
     
-    settings = Settings(file_settings['Acrichin'], 'Reestr')
-
-    # acrichin = settings['Acrichin']['Reestr']
-    # print(acrichin)
+    type_data = 'Reestr'
+    settings = Settings(file_settings['output_columns_name'], file_settings['792666'], type_data)
 
     tables_data = []
     with pdfplumber.open('pdf_files\АкрихинРеестр.PDF') as pdf:
@@ -143,6 +159,9 @@ def main():
             name_tov = str(row_table[settings.params.columns.column_name_tov])
             name_tov = name_tov.replace('\n', ' ')
 
+            name_proizvod = str(row_table[settings.params.columns.column_proizv])
+            name_proizvod = name_proizvod.replace('\n', ' ')
+
             series = str(row_table[settings.params.columns.column_series])
             if series[0] == "'":
                 series = series.replace("'", '', 1)
@@ -151,14 +170,25 @@ def main():
             if expiration_date[0] == "'":
                 expiration_date = expiration_date.replace("'", '', 1)
             
-            data = {
-                'row_number': row_table[settings.params.columns.column_por_num],
-                'code': row_table[settings.params.columns.column_code_tov],
-                'name': name_tov,
-                'series': series,
-                'count': row_table[settings.params.columns.column_count],
-                'expiration_date': expiration_date
-            }
+            if type_data == 'Reestr':
+                name_columns: ReestrOutputColumns = settings.out_colums
+                data = {
+                    name_columns.column_por_num: row_table[settings.params.columns.column_por_num],
+                    name_columns.column_code_tov: row_table[settings.params.columns.column_code_tov],
+                    name_columns.column_name_tov: name_tov,
+                    name_columns.column_series: series,
+                    name_columns.column_count: row_table[settings.params.columns.column_count],
+                    name_columns.column_expiry_date: expiration_date,
+                    name_columns.column_proizv: name_proizvod
+                }
+                # data = {
+                #     'row_number': row_table[settings.params.columns.column_por_num],
+                #     'code': row_table[settings.params.columns.column_code_tov],
+                #     'name': name_tov,
+                #     'series': series,
+                #     'count': row_table[settings.params.columns.column_count],
+                #     'expiration_date': expiration_date
+                # }
             results.append(data)
 
     if settings.params.output_settings.output_format == 'json':

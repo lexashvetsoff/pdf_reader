@@ -1,5 +1,20 @@
 {
-    "Acrichin":
+    "output_columns_name":
+    {
+        "Reestr":
+        {
+            "column_por_num": "ПорНомер",
+            "column_name_tov": "Наименование",
+            "column_code_tov": "Идентификатор",
+            "column_series": "Серия",
+            "column_expiry_date": "СрокГодности",
+            "column_count": "Кол_во",
+            "column_proizv": "Производитель"
+        },
+        "Protocol":
+        {}
+    },
+    "792666":
     {
         "Reestr":
         {
@@ -33,7 +48,7 @@
         "Protocol":
         {}
     },
-    "Binnofarm":
+    "795699":
     {
         "Reestr":
         {

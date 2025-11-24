@@ -12,7 +12,20 @@
             "column_proizv": "Производитель"
         },
         "Protocol":
-        {}
+        {
+            "column_por_num": "ПорНомер",
+            "column_name_tov": "Наименование",
+            "column_series": "Серия",
+            "column_expiry_date": "СрокГодности",
+            "column_proizv": "Производитель",
+            "column_price_proizv_no_nds": "ЦенаПроизводителяБезНдс",
+            "column_price_proizv_s_nds": "ЦенаПроизводителяСНдс",
+            "column_max_proizv_price": "ЦенаПроизвРег",
+            "column_count": "Количество",
+            "column_opt_price_no_nds": "ОптоваяЦенаБезНДС",
+            "column_opt_price_s_nds": "ОптоваяЦенаCНДС",
+            "column_sale_date_proizv": "ДатаРеализацииПроизв"
+        }
     },
 
     "792666":
@@ -91,8 +104,8 @@
             "table_settings":
             {
                 "row_table_headers": 0,
-                "start_row_table": 2,
-                "stop_row_table": 2,
+                "start_row_table": 3,
+                "stop_row_table": 0,
                 "headings_on_every_page": false,
                 "count_row_heders_other_pages": 0,
                 "series_and_expiration_date_combined": false,
@@ -100,18 +113,18 @@
             },
             "columns":
             {
-                "column_mnn": 0,
-                "column_trade_name": 1,
+                "column_por_num": null,
+                "column_name_tov": 1,
                 "column_series": 2,
-                "column_proizvod": 3,
+                "column_expiry_date": null,
+                "column_proizv": 3,
+                "column_price_proizv_no_nds": 5,
+                "column_price_proizv_s_nds": 6,
                 "column_max_proizv_price": 4,
-                "column_fakt_price_proizv": 5,
-                "column_sale_date_RF": 7,
-                "column_wholesale_price": 8,
-                "column_wholesale_markup": 11,
-                "column_total_wholesale_price": 13,
-                "column_total_wholesale_markup": 16,
-                "column_max_retail_price": 18
+                "column_count": null,
+                "column_opt_price_no_nds": 9,
+                "column_opt_price_s_nds": 10,
+                "column_sale_date_proizv": 7
             },
              "output_settings":
             {

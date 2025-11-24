@@ -48,18 +48,18 @@ class Reestr:
 
 class ProtocolColumns:
     def __init__(self, data):
-        self.column_mnn: int = data['column_mnn']
-        self.column_trade_name: int = data['column_trade_name']
+        self.column_por_num: int = data['column_por_num']
+        self.column_name_tov: int = data['column_name_tov']
         self.column_series: int = data['column_series']
-        self.column_proizvod: int = data['column_proizvod']
+        self.column_expiry_date: int = data['column_expiry_date']
+        self.column_proizv: int = data['column_proizv']
+        self.column_price_proizv_no_nds: int = data['column_price_proizv_no_nds']
+        self.column_price_proizv_s_nds: int = data['column_price_proizv_s_nds']
         self.column_max_proizv_price: int = data['column_max_proizv_price']
-        self.column_fakt_price_proizv: int = data['column_fakt_price_proizv']
-        self.column_sale_date_RF: int = data['column_sale_date_RF']
-        self.column_wholesale_price: int = data['column_wholesale_price']
-        self.column_wholesale_markup: int = data['column_wholesale_markup']
-        self.column_total_wholesale_price: int = data['column_total_wholesale_price']
-        self.column_total_wholesale_markup: int = data['column_total_wholesale_markup']
-        self.column_max_retail_price: int = data['column_max_retail_price']
+        self.column_count: int = data['column_count']
+        self.column_opt_price_no_nds: int = data['column_opt_price_no_nds']
+        self.column_opt_price_s_nds: int = data['column_opt_price_s_nds']
+        self.column_sale_date_proizv: int = data['column_sale_date_proizv']
 
 
 class Protocol:
@@ -82,7 +82,18 @@ class ReestrOutputColumns:
 
 class ProtocolOutputColumns:
     def __init__(self, data):
-        pass
+        self.column_por_num = data['column_por_num']
+        self.column_name_tov = data['column_name_tov']
+        self.column_series = data['column_series']
+        self.column_expiry_date = data['column_expiry_date']
+        self.column_proizv = data['column_proizv']
+        self.column_price_proizv_no_nds = data['column_price_proizv_no_nds']
+        self.column_price_proizv_s_nds = data['column_price_proizv_s_nds']
+        self.column_max_proizv_price = data['column_max_proizv_price']
+        self.column_count = data['column_count']
+        self.column_opt_price_no_nds = data['column_opt_price_no_nds']
+        self.column_opt_price_s_nds = data['column_opt_price_s_nds']
+        self.column_sale_date_proizv = data['column_sale_date_proizv']
 
 
 class Settings:
@@ -162,70 +173,84 @@ def main(code: str, folder: str, file_name: str, type_data: str):
                 skip_row = True
                 break
         
+        if not skip_row:
+            if type_data == 'Reestr':
+                if not settings.params.columns.column_por_num:
+                    skip_row = True
+        
         if skip_row:
             continue
 
-        if row_table[settings.params.columns.column_por_num]:
-            name_tov = str(row_table[settings.params.columns.column_name_tov])
-            name_tov = name_tov.replace('\n', ' ')
+        # if row_table[settings.params.columns.column_por_num]:
+        name_tov = str(row_table[settings.params.columns.column_name_tov])
+        name_tov = name_tov.replace('\n', ' ')
 
-            name_proizvod = str(row_table[settings.params.columns.column_proizv])
-            name_proizvod = name_proizvod.replace('\n', ' ')
+        name_proizvod = str(row_table[settings.params.columns.column_proizv])
+        name_proizvod = name_proizvod.replace('\n', ' ')
 
-            if settings.params.table_settings.series_and_expiration_date_combined:
-                combined_str = str(row_table[settings.params.columns.column_series])
-                combined_str_split = combined_str.split(sep=settings.params.table_settings.separator_series_and_expiration)
-                series = combined_str_split[0].strip()
-                expiration_date = combined_str_split[1].strip()
-            else:
-                series = str(row_table[settings.params.columns.column_series])
+        if settings.params.table_settings.series_and_expiration_date_combined:
+            combined_str = str(row_table[settings.params.columns.column_series])
+            combined_str_split = combined_str.split(sep=settings.params.table_settings.separator_series_and_expiration)
+            series = combined_str_split[0].strip()
+            expiration_date = combined_str_split[1].strip()
+        else:
+            series = str(row_table[settings.params.columns.column_series])
+            if settings.params.columns.column_expiry_date:
                 expiration_date = str(row_table[settings.params.columns.column_expiry_date])
-            
-            if series[0] == "'":
-                series = series.replace("'", '', 1)
-            series = series.replace('\n', '')
-            
-            if expiration_date:
-                if expiration_date[0] == "'":
-                    expiration_date = expiration_date.replace("'", '', 1)
-            
-            data = {}
-            if type_data == 'Reestr':
-                name_columns: ReestrOutputColumns = settings.out_colums
+            else:
+                expiration_date = ''
+        
+        if series[0] == "'":
+            series = series.replace("'", '', 1)
+        series = series.replace('\n', '')
+        
+        if expiration_date:
+            if expiration_date[0] == "'":
+                expiration_date = expiration_date.replace("'", '', 1)
+        
+        data = {}
+        if type_data == 'Reestr':
+            name_columns: ReestrOutputColumns = settings.out_colums
 
+            data[name_columns.column_por_num] = row_table[settings.params.columns.column_por_num]
+
+            if settings.params.columns.column_code_tov:
+                data[name_columns.column_code_tov] = row_table[settings.params.columns.column_code_tov]
+
+            data[name_columns.column_name_tov] = name_tov
+            data[name_columns.column_series] = series
+            
+            if settings.params.columns.column_count:
+                data[name_columns.column_count] = row_table[settings.params.columns.column_count]
+            
+            data[name_columns.column_expiry_date] = expiration_date
+            data[name_columns.column_proizv] = name_proizvod
+
+        elif type_data == 'Protocol':
+            name_columns: ProtocolOutputColumns = settings.out_colums
+
+            if settings.params.columns.column_por_num:
                 data[name_columns.column_por_num] = row_table[settings.params.columns.column_por_num]
+            
+            data[name_columns.column_name_tov] = name_tov
+            data[name_columns.column_series] = row_table[settings.params.columns.column_series]
 
-                if settings.params.columns.column_code_tov:
-                    data[name_columns.column_code_tov] = row_table[settings.params.columns.column_code_tov]
+            if settings.params.columns.column_expiry_date:
+                data[name_columns.column_expiry_date] = row_table[settings.params.columns.column_expiry_date]
+            
+            data[name_columns.column_proizv] = name_proizvod
+            data[name_columns.column_price_proizv_no_nds] = row_table[settings.params.columns.column_price_proizv_no_nds]
+            data[name_columns.column_price_proizv_s_nds] = row_table[settings.params.columns.column_price_proizv_s_nds]
+            data[name_columns.column_max_proizv_price] = row_table[settings.params.columns.column_max_proizv_price]
 
-                data[name_columns.column_name_tov] = name_tov
-                data[name_columns.column_series] = series
-                
-                if settings.params.columns.column_count:
-                    data[name_columns.column_count] = row_table[settings.params.columns.column_count]
-                
-                data[name_columns.column_expiry_date] = expiration_date
-                data[name_columns.column_proizv] = name_proizvod
+            if settings.params.columns.column_count:
+                data[name_columns.column_count] = row_table[settings.params.columns.column_count]
+            
+            data[name_columns.column_opt_price_no_nds] = row_table[settings.params.columns.column_opt_price_no_nds]
+            data[name_columns.column_opt_price_s_nds] = row_table[settings.params.columns.column_opt_price_s_nds]
+            data[name_columns.column_sale_date_proizv] = row_table[settings.params.columns.column_sale_date_proizv]
 
-                # data = {
-                #     name_columns.column_por_num: row_table[settings.params.columns.column_por_num],
-                #     name_columns.column_code_tov: row_table[settings.params.columns.column_code_tov],
-                #     name_columns.column_name_tov: name_tov,
-                #     name_columns.column_series: series,
-                #     name_columns.column_count: row_table[settings.params.columns.column_count],
-                #     name_columns.column_expiry_date: expiration_date,
-                #     name_columns.column_proizv: name_proizvod
-                # }
-
-                # data = {
-                #     'row_number': row_table[settings.params.columns.column_por_num],
-                #     'code': row_table[settings.params.columns.column_code_tov],
-                #     'name': name_tov,
-                #     'series': series,
-                #     'count': row_table[settings.params.columns.column_count],
-                #     'expiration_date': expiration_date
-                # }
-            results.append(data)
+        results.append(data)
 
     if settings.params.output_settings.output_format == 'json':
         with open('output.json', 'w', encoding='utf-8') as file:

@@ -210,3 +210,4 @@ __marimo__/
 output.json
 output.xml
 pdf_files/*.xlsx
+.vscode/

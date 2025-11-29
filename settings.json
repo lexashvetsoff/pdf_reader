@@ -41,7 +41,9 @@
                 "headings_on_every_page": false,
                 "count_row_heders_other_pages": 0,
                 "series_and_expiration_date_combined": false,
-                "separator_series_and_expiration": ";"
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
             },
             "columns":
             {
@@ -66,7 +68,41 @@
     {
         "description": "Алтайвитамины АО",
         "Reestr":
-        {}
+        {},
+        "Protocol":
+        {
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 3,
+                "stop_row_table": 1,
+                "headings_on_every_page": false,
+                "count_row_heders_other_pages": 0,
+                "series_and_expiration_date_combined": false,
+                "separator_series_and_expiration": ";",
+                "clear_string_series": true,
+                "proizv_price_and_sale_date_one_line": false
+            },
+            "columns":
+            {
+                "column_por_num": 0,
+                "column_name_tov": 1,
+                "column_series": 3,
+                "column_expiry_date": null,
+                "column_proizv": 2,
+                "column_price_proizv_no_nds": 6,
+                "column_price_proizv_s_nds": 7,
+                "column_max_proizv_price": 4,
+                "column_count": 5,
+                "column_opt_price_no_nds": 8,
+                "column_opt_price_s_nds": 9,
+                "column_sale_date_proizv": null
+            },
+             "output_settings":
+            {
+                "output_format": "xml"
+            }
+        }
     },
 
     "795699":
@@ -82,7 +118,9 @@
                 "headings_on_every_page": true,
                 "count_row_heders_other_pages": 1,
                 "series_and_expiration_date_combined": false,
-                "separator_series_and_expiration": ";"
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
             },
             "columns":
             {
@@ -109,7 +147,9 @@
                 "headings_on_every_page": false,
                 "count_row_heders_other_pages": 0,
                 "series_and_expiration_date_combined": false,
-                "separator_series_and_expiration": ";"
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
             },
             "columns":
             {
@@ -137,20 +177,90 @@
     {
         "description": "ЛЕО Фармасьютикал Продактс ООО",
         "Reestr":
-        {}
+        {},
+        "Protocol":
+        {
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 3,
+                "stop_row_table": 1,
+                "headings_on_every_page": false,
+                "count_row_heders_other_pages": 0,
+                "series_and_expiration_date_combined": false,
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
+            },
+            "columns":
+            {
+                "column_por_num": 0,
+                "column_name_tov": 1,
+                "column_series": 3,
+                "column_expiry_date": 4,
+                "column_proizv": 2,
+                "column_price_proizv_no_nds": null,
+                "column_price_proizv_s_nds": null,
+                "column_max_proizv_price": null,
+                "column_count": 5,
+                "column_opt_price_no_nds": null,
+                "column_opt_price_s_nds": null,
+                "column_sale_date_proizv": null
+            },
+             "output_settings":
+            {
+                "output_format": "xml"
+            }
+        }
     },
 
     "795702":
     {
         "description": "Медикал Лизинг-Консалтинг ООО",
         "Reestr":
-        {}
+        {},
+        "Protocol":
+        {
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 3,
+                "stop_row_table": 0,
+                "headings_on_every_page": false,
+                "count_row_heders_other_pages": 0,
+                "series_and_expiration_date_combined": false,
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
+            },
+            "columns":
+            {
+                "column_por_num": null,
+                "column_name_tov": 1,
+                "column_series": 2,
+                "column_expiry_date": null,
+                "column_proizv": 3,
+                "column_price_proizv_no_nds": 5,
+                "column_price_proizv_s_nds": 6,
+                "column_max_proizv_price": 4,
+                "column_count": 5,
+                "column_opt_price_no_nds": 9,
+                "column_opt_price_s_nds": 10,
+                "column_sale_date_proizv": 7
+            },
+             "output_settings":
+            {
+                "output_format": "xml"
+            }
+        }
     },
 
     "77":
     {
         "description": "Медисорб АО",
         "Reestr":
+        {},
+        "Protocol":
         {}
     },
 
@@ -167,7 +277,9 @@
                 "headings_on_every_page": false,
                 "count_row_heders_other_pages": 0,
                 "series_and_expiration_date_combined": false,
-                "separator_series_and_expiration": ";"
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
             },
             "columns":
             {
@@ -180,6 +292,40 @@
                 "column_proizv": 4
             },
             "output_settings":
+            {
+                "output_format": "xml"
+            }
+        },
+        "Protocol":
+        {
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 4,
+                "stop_row_table": 1,
+                "headings_on_every_page": false,
+                "count_row_heders_other_pages": 0,
+                "series_and_expiration_date_combined": false,
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
+            },
+            "columns":
+            {
+                "column_por_num": null,
+                "column_name_tov": 1,
+                "column_series": 2,
+                "column_expiry_date": null,
+                "column_proizv": 3,
+                "column_price_proizv_no_nds": 5,
+                "column_price_proizv_s_nds": 6,
+                "column_max_proizv_price": 4,
+                "column_count": null,
+                "column_opt_price_no_nds": 9,
+                "column_opt_price_s_nds": 10,
+                "column_sale_date_proizv": 7
+            },
+             "output_settings":
             {
                 "output_format": "xml"
             }
@@ -199,7 +345,9 @@
                 "headings_on_every_page": false,
                 "count_row_heders_other_pages": 0,
                 "series_and_expiration_date_combined": false,
-                "separator_series_and_expiration": ";"
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
             },
             "columns":
             {
@@ -212,6 +360,40 @@
                 "column_proizv": 4
             },
             "output_settings":
+            {
+                "output_format": "xml"
+            }
+        },
+        "Protocol":
+        {
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 4,
+                "stop_row_table": 0,
+                "headings_on_every_page": false,
+                "count_row_heders_other_pages": 0,
+                "series_and_expiration_date_combined": false,
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
+            },
+            "columns":
+            {
+                "column_por_num": null,
+                "column_name_tov": 1,
+                "column_series": 2,
+                "column_expiry_date": null,
+                "column_proizv": 3,
+                "column_price_proizv_no_nds": 5,
+                "column_price_proizv_s_nds": 6,
+                "column_max_proizv_price": 4,
+                "column_count": null,
+                "column_opt_price_no_nds": 9,
+                "column_opt_price_s_nds": 10,
+                "column_sale_date_proizv": 7
+            },
+             "output_settings":
             {
                 "output_format": "xml"
             }
@@ -231,7 +413,9 @@
                 "headings_on_every_page": false,
                 "count_row_heders_other_pages": 0,
                 "series_and_expiration_date_combined": false,
-                "separator_series_and_expiration": ";"
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
             },
             "columns":
             {
@@ -247,20 +431,58 @@
             {
                 "output_format": "xml"
             }
-        }
+        },
+        "Protocol":
+        {}
     },
 
     "790754":
     {
         "description": "ПРОМ.МЕДИК.РУСЬ АО",
         "Reestr":
-        {}
+        {},
+        "Protocol":
+        {
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 3,
+                "stop_row_table": 0,
+                "headings_on_every_page": false,
+                "count_row_heders_other_pages": 0,
+                "series_and_expiration_date_combined": false,
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
+            },
+            "columns":
+            {
+                "column_por_num": null,
+                "column_name_tov": 1,
+                "column_series": 2,
+                "column_expiry_date": null,
+                "column_proizv": 3,
+                "column_price_proizv_no_nds": 5,
+                "column_price_proizv_s_nds": 6,
+                "column_max_proizv_price": 4,
+                "column_count": null,
+                "column_opt_price_no_nds": 9,
+                "column_opt_price_s_nds": 10,
+                "column_sale_date_proizv": 7
+            },
+             "output_settings":
+            {
+                "output_format": "xml"
+            }
+        }
     },
 
     "791684":
     {
         "description": "ПРОМОМЕД ДМ ООО",
         "Reestr":
+        {},
+        "Protocol":
         {}
     },
 
@@ -268,34 +490,172 @@
     {
         "description": "Сотекс ФармФирма ЗАО",
         "Reestr":
-        {}
+        {},
+        "Protocol":
+        {
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 3,
+                "stop_row_table": 0,
+                "headings_on_every_page": false,
+                "count_row_heders_other_pages": 0,
+                "series_and_expiration_date_combined": false,
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
+            },
+            "columns":
+            {
+                "column_por_num": null,
+                "column_name_tov": 1,
+                "column_series": 2,
+                "column_expiry_date": null,
+                "column_proizv": 3,
+                "column_price_proizv_no_nds": 5,
+                "column_price_proizv_s_nds": 6,
+                "column_max_proizv_price": 4,
+                "column_count": null,
+                "column_opt_price_no_nds": 9,
+                "column_opt_price_s_nds": 10,
+                "column_sale_date_proizv": 7
+            },
+             "output_settings":
+            {
+                "output_format": "xml"
+            }
+        }
     },
 
     "793289":
     {
         "description": "ФАРМСТАНДАРТ",
         "Reestr":
-        {}
+        {},
+        "Protocol":
+        {
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 3,
+                "stop_row_table": 0,
+                "headings_on_every_page": true,
+                "count_row_heders_other_pages": 3,
+                "series_and_expiration_date_combined": false,
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": true
+            },
+            "columns":
+            {
+                "column_por_num": null,
+                "column_name_tov": 2,
+                "column_series": 3,
+                "column_expiry_date": null,
+                "column_proizv": 4,
+                "column_price_proizv_no_nds": 6,
+                "column_price_proizv_s_nds": null,
+                "column_max_proizv_price": 5,
+                "column_count": null,
+                "column_opt_price_no_nds": 9,
+                "column_opt_price_s_nds": 10,
+                "column_sale_date_proizv": null
+            },
+             "output_settings":
+            {
+                "output_format": "xml"
+            }
+        }
     },
 
     "779605":
     {
         "description": "Фирн М ООО",
         "Reestr":
-        {}
+        {},
+        "Protocol":
+        {
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 3,
+                "stop_row_table": 1,
+                "headings_on_every_page": false,
+                "count_row_heders_other_pages": 0,
+                "series_and_expiration_date_combined": false,
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
+            },
+            "columns":
+            {
+                "column_por_num": null,
+                "column_name_tov": 1,
+                "column_series": 2,
+                "column_expiry_date": null,
+                "column_proizv": 3,
+                "column_price_proizv_no_nds": 5,
+                "column_price_proizv_s_nds": 6,
+                "column_max_proizv_price": 4,
+                "column_count": null,
+                "column_opt_price_no_nds": 9,
+                "column_opt_price_s_nds": 10,
+                "column_sale_date_proizv": 7
+            },
+             "output_settings":
+            {
+                "output_format": "xml"
+            }
+        }
     },
 
     "783557":
     {
         "description": "Флора Кавказа ОАО",
         "Reestr":
-        {}
+        {},
+        "Protocol":
+        {
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 4,
+                "stop_row_table": 1,
+                "headings_on_every_page": false,
+                "count_row_heders_other_pages": 0,
+                "series_and_expiration_date_combined": false,
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
+            },
+            "columns":
+            {
+                "column_por_num": null,
+                "column_name_tov": 1,
+                "column_series": 2,
+                "column_expiry_date": null,
+                "column_proizv": 3,
+                "column_price_proizv_no_nds": 5,
+                "column_price_proizv_s_nds": 6,
+                "column_max_proizv_price": 4,
+                "column_count": null,
+                "column_opt_price_no_nds": 9,
+                "column_opt_price_s_nds": 10,
+                "column_sale_date_proizv": 7
+            },
+             "output_settings":
+            {
+                "output_format": "xml"
+            }
+        }
     },
 
     "789383":
     {
         "description": "ЭВЕР Нейро Фарма ООО",
         "Reestr":
+        {},
+        "Protocol":
         {}
     },
 
@@ -312,7 +672,9 @@
                 "headings_on_every_page": true,
                 "count_row_heders_other_pages": 1,
                 "series_and_expiration_date_combined": true,
-                "separator_series_and_expiration": ";"
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
             },
             "columns":
             {
@@ -325,6 +687,40 @@
                 "column_proizv": 3
             },
             "output_settings":
+            {
+                "output_format": "xml"
+            }
+        },
+        "Protocol":
+        {
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 4,
+                "stop_row_table": 1,
+                "headings_on_every_page": true,
+                "count_row_heders_other_pages": 3,
+                "series_and_expiration_date_combined": false,
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
+            },
+            "columns":
+            {
+                "column_por_num": null,
+                "column_name_tov": 1,
+                "column_series": 2,
+                "column_expiry_date": null,
+                "column_proizv": 3,
+                "column_price_proizv_no_nds": 5,
+                "column_price_proizv_s_nds": 6,
+                "column_max_proizv_price": 4,
+                "column_count": null,
+                "column_opt_price_no_nds": 9,
+                "column_opt_price_s_nds": 10,
+                "column_sale_date_proizv": 7
+            },
+             "output_settings":
             {
                 "output_format": "xml"
             }
@@ -344,7 +740,9 @@
                 "headings_on_every_page": false,
                 "count_row_heders_other_pages": 1,
                 "series_and_expiration_date_combined": false,
-                "separator_series_and_expiration": ";"
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false
             },
             "columns":
             {

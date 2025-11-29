@@ -6,3 +6,12 @@
 Мединторг:
     Реестр:
         1. Колонка "Декларант/держатель" какбуд то отдельно от всей таблицы....
+
+
+
+Дополнения:
+
+    - При proizv_price_and_sale_date_one_line == True:
+        "column_price_proizv_no_nds" - заполняем номер колонки
+        "column_price_proizv_s_nds" - должен быть null
+        "column_sale_date_proizv" - должен быть null

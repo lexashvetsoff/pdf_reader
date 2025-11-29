@@ -38,7 +38,7 @@ def clean_headers_row(row: List):
 
 def main():
     tables_data = []
-    with pdfplumber.open('pdf_files\ПротоколБиннофарм.pdf') as pdf:
+    with pdfplumber.open('pdf_files\ПротоколСибмединфо.pdf') as pdf:
         for page in pdf.pages:
             # Настройки для лучшего распознавания
             table_settings = {
@@ -54,11 +54,11 @@ def main():
                     if any(cell and cell.strip() for cell in row):
                         tables_data.append([cell.strip() if cell else "" for cell in row])
 
-    result_row = clean_headers_row(tables_data[-1])
+    result_row = clean_headers_row(tables_data[-2])
     for i, row in enumerate(result_row):
         print(f'{i}: {row}')
 
-    
+
     # 0: №
     # 1: Код товара
     # 2: Наименование товара

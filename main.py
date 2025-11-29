@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import json
 import enum
@@ -6,6 +7,7 @@ import argparse
 import pdfplumber
 import pandas as pd
 import xml.etree.ElementTree as et
+from datetime import datetime
 
 
 class TableSettings:
@@ -17,6 +19,8 @@ class TableSettings:
         self.count_row_heders_other_pages: int = data['count_row_heders_other_pages']
         self.series_and_expiration_date_combined: bool = data['series_and_expiration_date_combined']
         self.separator_series_and_expiration: str = data['separator_series_and_expiration']
+        self.clear_string_series: bool = data['clear_string_series']
+        self.proizv_price_and_sale_date_one_line: bool = data["proizv_price_and_sale_date_one_line"]
 
 
 class OutputSettings:
@@ -136,6 +140,31 @@ def list_dict_to_xml(data, root_tag='root', element_tag='item'):
     tree.write('output.xml', encoding='utf-8', xml_declaration=True)
 
 
+def clear_series(text):
+    return re.sub(r'[\sа-яА-ЯёЁ]', '', text)
+
+
+def parce_price_and_date_one_line(text):
+    # Очищаем от лишнего
+    _text = text.replace('\n00', '')
+    _text = _text.replace(',\n', ',00 ')
+
+    # Ищем все числа (с разделителями тысяч и десятичными знаками)
+    numbers = re.findall(r'[\d\s]+,\d{2}', _text)
+
+    # Ищем дату
+    date_match = re.search(r'\d{2}\.\d{2}\.\d{4}', _text)
+
+    if len(numbers) >= 2 and date_match:
+        num1 = float(numbers[0].replace(' ', '').replace(',', '.'))
+        num2 = float(numbers[1].replace(' ', '').replace(',', '.'))
+        date = datetime.strptime(date_match.group(), '%d.%m.%Y').date()
+        
+        return num1, num2, date
+    else:
+        raise ValueError("Не удалось найти два числа и дату")
+
+
 def main(code: str, folder: str, file_name: str, type_data: str):
     with open('settings.json', 'r', encoding='utf-8') as file:
         file_settings = json.load(file)
@@ -157,7 +186,16 @@ def main(code: str, folder: str, file_name: str, type_data: str):
 
             tables = page.extract_tables(table_settings)
             for table in tables:
-                for row in table:
+                if page.page_number > 1:
+                    if settings.params.table_settings.headings_on_every_page:
+                        cur_table = table[settings.params.table_settings.count_row_heders_other_pages:]
+                    else:
+                        cur_table = table
+                else:
+                    cur_table = table
+
+                # for row in table:
+                for row in cur_table:
                     # Фильтрация пустых строк
                     if any(cell and cell.strip() for cell in row):
                         tables_data.append([cell.strip() if cell else "" for cell in row])
@@ -195,13 +233,14 @@ def main(code: str, folder: str, file_name: str, type_data: str):
             expiration_date = combined_str_split[1].strip()
         else:
             series = str(row_table[settings.params.columns.column_series])
-            if settings.params.columns.column_expiry_date:
+            if settings.params.columns.column_expiry_date is not None:
                 expiration_date = str(row_table[settings.params.columns.column_expiry_date])
             else:
                 expiration_date = ''
         
-        if series[0] == "'":
-            series = series.replace("'", '', 1)
+        if series:
+            if series[0] == "'":
+                series = series.replace("'", '', 1)
         series = series.replace('\n', '')
         
         if expiration_date:
@@ -214,13 +253,13 @@ def main(code: str, folder: str, file_name: str, type_data: str):
 
             data[name_columns.column_por_num] = row_table[settings.params.columns.column_por_num]
 
-            if settings.params.columns.column_code_tov:
+            if settings.params.columns.column_code_tov is not None:
                 data[name_columns.column_code_tov] = row_table[settings.params.columns.column_code_tov]
 
             data[name_columns.column_name_tov] = name_tov
             data[name_columns.column_series] = series
             
-            if settings.params.columns.column_count:
+            if settings.params.columns.column_count is not None:
                 data[name_columns.column_count] = row_table[settings.params.columns.column_count]
             
             data[name_columns.column_expiry_date] = expiration_date
@@ -229,26 +268,47 @@ def main(code: str, folder: str, file_name: str, type_data: str):
         elif type_data == 'Protocol':
             name_columns: ProtocolOutputColumns = settings.out_colums
 
-            if settings.params.columns.column_por_num:
+            if settings.params.columns.column_por_num is not None:
                 data[name_columns.column_por_num] = row_table[settings.params.columns.column_por_num]
             
             data[name_columns.column_name_tov] = name_tov
-            data[name_columns.column_series] = row_table[settings.params.columns.column_series]
 
-            if settings.params.columns.column_expiry_date:
+            # cur_ser = row_table[settings.params.columns.column_series]
+            if settings.params.table_settings.clear_string_series:
+                series = clear_series(series)
+            data[name_columns.column_series] = series
+
+            if settings.params.columns.column_expiry_date is not None:
                 data[name_columns.column_expiry_date] = row_table[settings.params.columns.column_expiry_date]
             
             data[name_columns.column_proizv] = name_proizvod
-            data[name_columns.column_price_proizv_no_nds] = row_table[settings.params.columns.column_price_proizv_no_nds]
-            data[name_columns.column_price_proizv_s_nds] = row_table[settings.params.columns.column_price_proizv_s_nds]
-            data[name_columns.column_max_proizv_price] = row_table[settings.params.columns.column_max_proizv_price]
 
-            if settings.params.columns.column_count:
+            if settings.params.columns.column_max_proizv_price is not None:
+                data[name_columns.column_max_proizv_price] = row_table[settings.params.columns.column_max_proizv_price]
+
+            if not settings.params.table_settings.proizv_price_and_sale_date_one_line:
+                if settings.params.columns.column_price_proizv_no_nds is not None:
+                    data[name_columns.column_price_proizv_no_nds] = row_table[settings.params.columns.column_price_proizv_no_nds]
+                
+                if settings.params.columns.column_price_proizv_s_nds is not None:
+                    data[name_columns.column_price_proizv_s_nds] = row_table[settings.params.columns.column_price_proizv_s_nds]
+                
+                if settings.params.columns.column_sale_date_proizv is not None:
+                    data[name_columns.column_sale_date_proizv] = row_table[settings.params.columns.column_sale_date_proizv]
+            else:
+                price_proizv_no_nds, price_proizv_s_nds, sale_date_proizv = parce_price_and_date_one_line(row_table[settings.params.columns.column_price_proizv_no_nds])
+                data[name_columns.column_price_proizv_no_nds] = price_proizv_no_nds
+                data[name_columns.column_price_proizv_s_nds] = price_proizv_s_nds
+                data[name_columns.column_sale_date_proizv] = sale_date_proizv
+
+            if settings.params.columns.column_count is not None:
                 data[name_columns.column_count] = row_table[settings.params.columns.column_count]
             
-            data[name_columns.column_opt_price_no_nds] = row_table[settings.params.columns.column_opt_price_no_nds]
-            data[name_columns.column_opt_price_s_nds] = row_table[settings.params.columns.column_opt_price_s_nds]
-            data[name_columns.column_sale_date_proizv] = row_table[settings.params.columns.column_sale_date_proizv]
+            if settings.params.columns.column_opt_price_no_nds is not None:
+                data[name_columns.column_opt_price_no_nds] = row_table[settings.params.columns.column_opt_price_no_nds]
+            
+            if settings.params.columns.column_opt_price_s_nds is not None:
+                data[name_columns.column_opt_price_s_nds] = row_table[settings.params.columns.column_opt_price_s_nds]
 
         results.append(data)
 

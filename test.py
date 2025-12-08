@@ -38,7 +38,7 @@ def clean_headers_row(row: List):
 
 def main():
     tables_data = []
-    with pdfplumber.open('pdf_files\ПротоколСибмединфо.pdf') as pdf:
+    with pdfplumber.open('pdf_files\ПротоколМединторг.pdf') as pdf:
         for page in pdf.pages:
             # Настройки для лучшего распознавания
             table_settings = {

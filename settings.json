@@ -43,7 +43,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -81,7 +82,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": true,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -114,13 +116,14 @@
             {
                 "row_table_headers": 0,
                 "start_row_table": 2,
-                "stop_row_table": 2,
+                "stop_row_table": 0,
                 "headings_on_every_page": true,
                 "count_row_heders_other_pages": 1,
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -149,7 +152,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -190,7 +194,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -231,7 +236,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -279,7 +285,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -308,7 +315,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -347,7 +355,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -376,7 +385,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -415,7 +425,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -453,7 +464,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -503,7 +515,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -544,7 +557,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": true
+                "proizv_price_and_sale_date_one_line": true,
+                "two_page_table": false
             },
             "columns":
             {
@@ -585,7 +599,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -626,7 +641,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -674,7 +690,8 @@
                 "series_and_expiration_date_combined": true,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -703,7 +720,8 @@
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": false
             },
             "columns":
             {
@@ -735,14 +753,15 @@
             "table_settings":
             {
                 "row_table_headers": 0,
-                "start_row_table": 1,
-                "stop_row_table": 0,
+                "start_row_table": 2,
+                "stop_row_table": 1,
                 "headings_on_every_page": false,
                 "count_row_heders_other_pages": 1,
                 "series_and_expiration_date_combined": false,
                 "separator_series_and_expiration": ";",
                 "clear_string_series": false,
-                "proizv_price_and_sale_date_one_line": false
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": true
             },
             "columns":
             {
@@ -755,6 +774,41 @@
                 "column_proizv": 4
             },
             "output_settings":
+            {
+                "output_format": "xml"
+            }
+        },
+        "Protocol":
+        {
+            "table_settings":
+            {
+                "row_table_headers": 0,
+                "start_row_table": 4,
+                "stop_row_table": 1,
+                "headings_on_every_page": true,
+                "count_row_heders_other_pages": 3,
+                "series_and_expiration_date_combined": false,
+                "separator_series_and_expiration": ";",
+                "clear_string_series": false,
+                "proizv_price_and_sale_date_one_line": false,
+                "two_page_table": true
+            },
+            "columns":
+            {
+                "column_por_num": null,
+                "column_name_tov": 1,
+                "column_series": 2,
+                "column_expiry_date": null,
+                "column_proizv": 3,
+                "column_price_proizv_no_nds": 5,
+                "column_price_proizv_s_nds": 6,
+                "column_max_proizv_price": 4,
+                "column_count": null,
+                "column_opt_price_no_nds": 9,
+                "column_opt_price_s_nds": 10,
+                "column_sale_date_proizv": 7
+            },
+             "output_settings":
             {
                 "output_format": "xml"
             }

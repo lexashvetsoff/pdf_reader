@@ -21,6 +21,7 @@ class TableSettings:
         self.separator_series_and_expiration: str = data['separator_series_and_expiration']
         self.clear_string_series: bool = data['clear_string_series']
         self.proizv_price_and_sale_date_one_line: bool = data["proizv_price_and_sale_date_one_line"]
+        self.two_page_table: bool = data["two_page_table"]
 
 
 class OutputSettings:
@@ -195,6 +196,12 @@ def main(code: str, folder: str, file_name: str, type_data: str):
                     cur_table = table
 
                 # for row in table:
+                # if cur_table[1][0] == 'Декларант/держатель':
+                #     continue
+                if settings.params.table_settings.two_page_table:
+                    if page.page_number % 2 == 0:
+                        continue
+
                 for row in cur_table:
                     # Фильтрация пустых строк
                     if any(cell and cell.strip() for cell in row):
@@ -213,7 +220,10 @@ def main(code: str, folder: str, file_name: str, type_data: str):
         
         if not skip_row:
             if type_data == 'Reestr':
-                if not settings.params.columns.column_por_num:
+                # if not settings.params.columns.column_por_num:
+                if settings.params.columns.column_por_num is None:
+                    skip_row = True
+                if not row_table[0] and not row_table[1]:
                     skip_row = True
         
         if skip_row:
@@ -328,15 +338,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    # print(args.code)
-    # print(type(args.code))
-
-    # print(args.folder)
-    # print(type(args.folder))
-
     # print(args.file)
-    # print(type(args.file))
-
-    # print(args.type)
     
     main(args.code, args.folder, args.file, args.type)

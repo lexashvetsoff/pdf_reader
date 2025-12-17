@@ -38,7 +38,7 @@ def clean_headers_row(row: List):
 
 def main():
     tables_data = []
-    with pdfplumber.open('pdf_files\ПротоколМединторг.pdf') as pdf:
+    with pdfplumber.open('pdf_files\Фармстандарт\Протокол_5.PDF') as pdf:
         for page in pdf.pages:
             # Настройки для лучшего распознавания
             table_settings = {
@@ -54,7 +54,7 @@ def main():
                     if any(cell and cell.strip() for cell in row):
                         tables_data.append([cell.strip() if cell else "" for cell in row])
 
-    result_row = clean_headers_row(tables_data[-2])
+    result_row = clean_headers_row(tables_data[3])
     for i, row in enumerate(result_row):
         print(f'{i}: {row}')
 

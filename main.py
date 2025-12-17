@@ -21,7 +21,12 @@ class TableSettings:
         self.separator_series_and_expiration: str = data['separator_series_and_expiration']
         self.clear_string_series: bool = data['clear_string_series']
         self.proizv_price_and_sale_date_one_line: bool = data["proizv_price_and_sale_date_one_line"]
+        self.opt_price_one_line: bool = data["opt_price_one_line"]
         self.two_page_table: bool = data["two_page_table"]
+        self.remove_shift_tail_if_one_page: bool = data["remove_shift_tail_if_one_page"]
+        self.check_headings_on_every_page: bool = data["check_headings_on_every_page"]
+        self.table_shift_control: bool = data["table_shift_control"]
+        self.three_copies_in_one_file: bool = data["three_copies_in_one_file"]
 
 
 class OutputSettings:
@@ -114,7 +119,7 @@ class Settings:
             raise ValueError
 
 
-def list_dict_to_xml(data, root_tag='root', element_tag='item'):
+def list_dict_to_xml(data, root_tag='root', element_tag='item', output_filename='output.xml'):
     """
     Преобразует список словарей в XML-строку.
     
@@ -138,7 +143,7 @@ def list_dict_to_xml(data, root_tag='root', element_tag='item'):
     except AttributeError:
         pass
 
-    tree.write('output.xml', encoding='utf-8', xml_declaration=True)
+    tree.write(output_filename, encoding='utf-8', xml_declaration=True)
 
 
 def clear_series(text):
@@ -166,6 +171,24 @@ def parce_price_and_date_one_line(text):
         raise ValueError("Не удалось найти два числа и дату")
 
 
+def parce_opt_price(text):
+    # Очищаем от лишнего
+    _text = text.replace('\n00', '')
+    _text = _text.replace(',\n', ',00 ')
+    _text = _text.replace('\n', ' ')
+
+    # Ищем все числа (с разделителями тысяч и десятичными знаками)
+    numbers = re.findall(r'[\d\s]+,?\d{2}', _text)
+
+    if len(numbers) >= 2:
+        num1 = float(numbers[0].replace(' ', '').replace(',', '.'))
+        num2 = float(numbers[1].replace(' ', '').replace(',', '.'))
+        
+        return num1, num2
+    else:
+        raise ValueError("Не удалось найти два числа")
+
+
 def main(code: str, folder: str, file_name: str, type_data: str):
     with open('settings.json', 'r', encoding='utf-8') as file:
         file_settings = json.load(file)
@@ -174,20 +197,56 @@ def main(code: str, folder: str, file_name: str, type_data: str):
     settings = Settings(file_settings['output_columns_name'], file_settings[code], type_data)
 
     tables_data = []
+    count_pages = 0
     file_path = os.path.join(folder, file_name)
+
     # with pdfplumber.open('pdf_files\АкрихинРеестр.PDF') as pdf:
     with pdfplumber.open(file_path) as pdf:
+        # Настройки для лучшего распознавания
+        table_settings = {
+            "vertical_strategy": "lines",
+            "horizontal_strategy": "lines",
+            "snap_tolerance": 4,
+        }
+        
+        count_pages = len(pdf.pages)
+        stop_on_page = 0
+
+        if settings.params.table_settings.three_copies_in_one_file:
+            if count_pages % 3 == 0:
+                stop_on_page = int(count_pages / 3)
+            elif count_pages % 2 == 0:
+                stop_on_page = int(count_pages / 2)
+
         for page in pdf.pages:
-            # Настройки для лучшего распознавания
-            table_settings = {
-                "vertical_strategy": "lines",
-                "horizontal_strategy": "lines",
-                "snap_tolerance": 4,
-            }
+            if stop_on_page != 0:
+                if page.page_number > stop_on_page:
+                    break
 
             tables = page.extract_tables(table_settings)
+
+            if len(tables) == 0 and page.page_number == 1:
+                if page.images:
+                    print('Изображение вместо таблицы!')
+                    return
+                else:
+                    print('Нет таблиц в документе!')
+                    return
+            
             for table in tables:
                 if page.page_number > 1:
+                    if settings.params.table_settings.table_shift_control:
+                        if tables[-1][-1][1] is None:
+                            break
+                        if 'подпись уполномоченного лица' in tables[-1][-1][1]:
+                            break
+                    else:
+                        if tables[-1][-1][0] is None:
+                            break
+                        # TODO до выяснения - мешает Озону
+                        # if 'подпись уполномоченного лица' in tables[-1][-1][0]:
+                        #     break
+
                     if settings.params.table_settings.headings_on_every_page:
                         cur_table = table[settings.params.table_settings.count_row_heders_other_pages:]
                     else:
@@ -201,15 +260,35 @@ def main(code: str, folder: str, file_name: str, type_data: str):
                 if settings.params.table_settings.two_page_table:
                     if page.page_number % 2 == 0:
                         continue
+                
+                strip_row = False
+                if settings.params.table_settings.table_shift_control:
+                    if type_data == 'Protocol':
+                        if len(cur_table[0]) == 21 or len(cur_table[0]) == 23:
+                            strip_row = True
+                    else:
+                        if len(cur_table[0]) == 16 or len(cur_table[0]) == 10:
+                            strip_row = True
 
                 for row in cur_table:
                     # Фильтрация пустых строк
+                    if strip_row:
+                        row = row[1:]
+
                     if any(cell and cell.strip() for cell in row):
                         tables_data.append([cell.strip() if cell else "" for cell in row])
 
     results = []
     row_start = settings.params.table_settings.start_row_table
-    row_stop = -settings.params.table_settings.stop_row_table if settings.params.table_settings.stop_row_table != 0 else len(tables_data)
+
+    if settings.params.table_settings.remove_shift_tail_if_one_page:
+        if count_pages == 1:
+            row_stop = len(tables_data)
+        else:
+            row_stop = -settings.params.table_settings.stop_row_table if settings.params.table_settings.stop_row_table != 0 else len(tables_data)
+    else:
+        row_stop = -settings.params.table_settings.stop_row_table if settings.params.table_settings.stop_row_table != 0 else len(tables_data)
+
     # for row_table in tables_data[settings.params.table_settings.start_row_table:-settings.params.table_settings.stop_row_table]:
     for row_table in tables_data[row_start:row_stop]:
         skip_row = False
@@ -224,6 +303,14 @@ def main(code: str, folder: str, file_name: str, type_data: str):
                 if settings.params.columns.column_por_num is None:
                     skip_row = True
                 if not row_table[0] and not row_table[1]:
+                    skip_row = True
+            
+            if type_data == 'Protocol':
+                if not row_table[settings.params.columns.column_name_tov]:
+                    skip_row = True
+
+            if settings.params.table_settings.check_headings_on_every_page:
+                if row_table[settings.params.columns.column_series].strip().lower() == 'серия':
                     skip_row = True
         
         if skip_row:
@@ -314,11 +401,19 @@ def main(code: str, folder: str, file_name: str, type_data: str):
             if settings.params.columns.column_count is not None:
                 data[name_columns.column_count] = row_table[settings.params.columns.column_count]
             
-            if settings.params.columns.column_opt_price_no_nds is not None:
-                data[name_columns.column_opt_price_no_nds] = row_table[settings.params.columns.column_opt_price_no_nds]
-            
-            if settings.params.columns.column_opt_price_s_nds is not None:
-                data[name_columns.column_opt_price_s_nds] = row_table[settings.params.columns.column_opt_price_s_nds]
+            if not settings.params.table_settings.opt_price_one_line:
+                if settings.params.columns.column_opt_price_no_nds is not None:
+                    data[name_columns.column_opt_price_no_nds] = row_table[settings.params.columns.column_opt_price_no_nds]
+                
+                if settings.params.columns.column_opt_price_s_nds is not None:
+                    data[name_columns.column_opt_price_s_nds] = row_table[settings.params.columns.column_opt_price_s_nds]
+            else:
+                text_cell_row = row_table[settings.params.columns.column_opt_price_no_nds]
+                opt_price_no_nds, opt_price_s_nds = ('', '')
+                if text_cell_row:
+                    opt_price_no_nds, opt_price_s_nds = parce_opt_price(text_cell_row)
+                data[name_columns.column_opt_price_no_nds] = opt_price_no_nds if opt_price_no_nds else '-'
+                data[name_columns.column_opt_price_s_nds] = opt_price_s_nds if opt_price_s_nds else '-'
 
         results.append(data)
 
@@ -326,7 +421,11 @@ def main(code: str, folder: str, file_name: str, type_data: str):
         with open('output.json', 'w', encoding='utf-8') as file:
             json.dump(results, file, ensure_ascii=False, indent=4)
     elif settings.params.output_settings.output_format == 'xml':
-        list_dict_to_xml(results)
+        split_folder = folder.split(sep='\\')[1]
+        split_filename = file_name.split(sep='.')[0]
+        new_filename = f'{type_data}_{split_folder}_{split_filename}.xml'
+        full_new_path = os.path.join('output', new_filename)
+        list_dict_to_xml(data=results, output_filename=full_new_path)
 
 
 if __name__ == '__main__':
